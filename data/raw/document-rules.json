@@ -1,0 +1,99 @@
+{
+  "rules": [
+    {
+      "id": "ending_format",
+      "name": "기안 끝 표기 규정",
+      "description": "기안의 끝은 마침표 다음 두 칸을 띄우고 '끝.'을 작성합니다",
+      "pattern": "\\.(?!\\s{2}끝\\.$)",
+      "suggestion": "문서 끝에 '.  끝.' 형식으로 작성해야 합니다",
+      "autofix": true,
+      "severity": "error"
+    },
+    {
+      "id": "date_format",
+      "name": "날짜 형식 통일",
+      "description": "날짜는 YYYY.MM.DD 또는 YYYY년 MM월 DD일 형식으로 작성",
+      "pattern": "\\d{4}[-/]\\d{1,2}[-/]\\d{1,2}",
+      "suggestion": "날짜 형식을 YYYY.MM.DD 또는 YYYY년 MM월 DD일로 통일하세요",
+      "autofix": true,
+      "severity": "warning"
+    },
+    {
+      "id": "honorifics_consistency",
+      "name": "경어체 통일",
+      "description": "문서 전체에서 '~합니다', '~입니다' 등 경어체를 일관되게 사용",
+      "severity": "warning"
+    },
+    {
+      "id": "official_terms",
+      "name": "공문서 용어 사용",
+      "description": "공식 문서에 맞는 용어 사용",
+      "replacements": {
+        "하지만": "그러나",
+        "그래서": "따라서",
+        "왜냐하면": "이는",
+        "때문에": "으로 인하여",
+        "~거나": "~하거나",
+        "근데": "그런데"
+      },
+      "severity": "info"
+    },
+    {
+      "id": "number_format",
+      "name": "숫자 표기 규정",
+      "description": "큰 숫자는 아라비아 숫자로, 작은 수량은 한글로 표기 가능",
+      "severity": "info"
+    },
+    {
+      "id": "paragraph_spacing",
+      "name": "문단 구분",
+      "description": "문단은 명확하게 구분하고 적절한 들여쓰기 사용",
+      "severity": "info"
+    },
+    {
+      "id": "title_format",
+      "name": "제목 형식",
+      "description": "제목은 간결하고 명확하게 작성하며, 특수문자 사용 지양",
+      "severity": "warning"
+    },
+    {
+      "id": "attachment_reference",
+      "name": "첨부서류 표기",
+      "description": "첨부서류가 있을 경우 '붙임'으로 명시하고 목록 작성",
+      "pattern": "붙임\\s*[:：]?\\s*",
+      "severity": "info"
+    },
+    {
+      "id": "double_spaces",
+      "name": "불필요한 공백 제거",
+      "description": "연속된 공백은 하나로 통일 (끝. 표기 제외)",
+      "pattern": "\\s{2,}(?!끝)",
+      "suggestion": "불필요한 연속 공백을 제거하세요",
+      "autofix": true,
+      "severity": "info"
+    },
+    {
+      "id": "no_trailing_spaces",
+      "name": "문장 끝 공백 제거",
+      "description": "문장 끝의 불필요한 공백 제거",
+      "severity": "info"
+    }
+  ],
+  "spelling_exceptions": [
+    "그룹웨어",
+    "웹한글",
+    "기안서"
+  ],
+  "custom_vocabulary": {
+    "대학": "university related terms",
+    "common_terms": [
+      "기안",
+      "결재",
+      "품의",
+      "시행",
+      "접수",
+      "공람",
+      "협조"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "version": "2.1.1",
+  "description": "문서 검토 규정 파일 설정",
+  "files": [
+    {
+      "id": "basic-rules",
+      "name": "기본 문서관리 규정",
+      "path": "rules/document-rules.md",
+      "type": "markdown",
+      "enabled": true,
+      "priority": 1,
+      "description": "기본 맞춤법 및 형식 규정",
+      "source": "시스템"
+    },
+    {
+      "id": "공문서-작성-안내-2a1f9634440580079865fa235af93f72",
+      "name": "공문서 작성 안내 2a1f9634440580079865fa235af93f72",
+      "path": "rules/local/공문서 작성 안내 2a1f9634440580079865fa235af93f72.md",
+      "type": "markdown",
+      "enabled": true,
+      "priority": 2,
+      "description": "본교에서 추가된 규정 파일",
+      "source": "본교"
+    },
+    {
+      "id": "admin-manual",
+      "name": "행정업무 운영편람",
+      "path": "rules/government/행정업무운영편람.txt",
+      "type": "text",
+      "enabled": true,
+      "priority": 3,
+      "description": "정부 행정업무 표준 매뉴얼",
+      "source": "정부",
+      "originalFormat": "pdf",
+      "note": "PDF를 텍스트로 변환한 파일"
+    },
+    {
+      "id": "admin-regulations",
+      "name": "행정 효율과 협업 촉진 규정 시행규칙",
+      "path": "rules/government/행정규정시행규칙.txt",
+      "type": "text",
+      "enabled": true,
+      "priority": 4,
+      "description": "행정 효율 관련 법규",
+      "source": "정부",
+      "originalFormat": "pdf"
+    },
+    {
+      "id": "admin-terminology",
+      "name": "알기 쉬운 행정용어",
+      "path": "rules/government/알기쉬운행정용어.txt",
+      "type": "text",
+      "enabled": true,
+      "priority": 5,
+      "description": "행정용어 표준화 가이드",
+      "source": "정부",
+      "originalFormat": "pdf"
+    }
+  ],
+  "settings": {
+    "autoLoadAll": true,
+    "useInAI": true,
+    "maxContextLength": 50000,
+    "encoding": "utf-8"
+  },
+  "instructions": {
+    "addNewFile": "새 파일을 추가하려면 files 배열에 객체를 추가하고, 실제 파일을 해당 경로에 저장하세요.",
+    "disableFile": "파일을 비활성화하려면 enabled를 false로 설정하세요.",
+    "priority": "priority가 낮을수록 먼저 적용됩니다 (1이 가장 높은 우선순위).",
+    "pdfConversion": "PDF 파일은 텍스트로 변환하여 .txt로 저장하세요. 변환 가이드는 PDF-CONVERSION.md 참조."
+  }
+}

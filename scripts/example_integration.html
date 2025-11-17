@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG 챗봇 연동 예제</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .chat-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #e9ecef;
+            color: black;
+        }
+        .source-info {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        #queryInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #searchButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #searchButton:hover {
+            background-color: #0056b3;
+        }
+        .config {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>RAG 챗봇 연동 예제</h1>
+
+    <div class="config">
+        <strong>설정:</strong> API 서버가 <code>http://localhost:8000</code>에서 실행 중이어야 합니다.
+    </div>
+
+    <div class="chat-container" id="chatContainer"></div>
+
+    <div class="input-container">
+        <input type="text" id="queryInput" placeholder="질문을 입력하세요..." />
+        <button id="searchButton" onclick="searchDocuments()">검색</button>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const queryInput = document.getElementById('queryInput');
+
+        // Enter 키로 검색
+        queryInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchDocuments();
+            }
+        });
+
+        async function searchDocuments() {
+            const query = queryInput.value.trim();
+            if (!query) return;
+
+            // 사용자 메시지 표시
+            addMessage(query, 'user');
+            queryInput.value = '';
+
+            try {
+                // RAG API 호출
+                const response = await fetch('http://localhost:8000/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        top_k: 3
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API 요청 실패');
+                }
+
+                const data = await response.json();
+
+                // 검색 결과를 기반으로 답변 생성
+                // 실제로는 여기서 Gemini API를 호출하여 답변을 생성해야 합니다
+                const answer = `검색된 문서 ${data.source_count}개:\n\n${data.context}\n\n출처: ${data.sources.join(', ')}`;
+
+                // 봇 메시지 표시
+                addMessage(answer, 'bot', data.sources);
+
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('오류가 발생했습니다. API 서버가 실행 중인지 확인해주세요.', 'bot');
+            }
+        }
+
+        function addMessage(text, type, sources = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+
+            const textNode = document.createTextNode(text);
+            messageDiv.appendChild(textNode);
+
+            if (sources && sources.length > 0) {
+                const sourceDiv = document.createElement('div');
+                sourceDiv.className = 'source-info';
+                sourceDiv.textContent = `출처: ${sources.join(', ')}`;
+                messageDiv.appendChild(sourceDiv);
+            }
+
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // 초기 메시지
+        addMessage('안녕하세요! 문서 검색 챗봇입니다. 궁금한 내용을 질문해주세요.', 'bot');
+    </script>
+</body>
+</html>

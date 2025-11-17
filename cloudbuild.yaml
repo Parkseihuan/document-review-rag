@@ -1,0 +1,33 @@
+steps:
+  # Build the container image with API key as build arg
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '--build-arg', 'GOOGLE_API_KEY=${_GOOGLE_API_KEY}',
+      '-t', 'gcr.io/document-review-478514/document-review-rag',
+      '.'
+    ]
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/document-review-478514/document-review-rag']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'document-review-rag',
+      '--image', 'gcr.io/document-review-478514/document-review-rag',
+      '--region', 'asia-northeast3',
+      '--platform', 'managed',
+      '--allow-unauthenticated',
+      '--set-env-vars', 'GOOGLE_API_KEY=${_GOOGLE_API_KEY}',
+      '--memory', '512Mi',
+      '--timeout', '300'
+    ]
+
+images:
+  - 'gcr.io/document-review-478514/document-review-rag'
+
+substitutions:
+  _GOOGLE_API_KEY: ''
