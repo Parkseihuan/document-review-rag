@@ -39,3 +39,4 @@ data/processed_files.json
 
 # Logs
 *.log
+.env
